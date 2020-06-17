@@ -169,7 +169,7 @@ $("#modalDueDate").datepicker({
 });
 
 // save button in modal was clicked
-$("#task-form-modal .btn-primary").click(function() {
+$("#task-form-modal .btn-save").click(function() {
   // get form values
   var taskText = $("#modalTaskDescription").val();
   var taskDate = $("#modalDueDate").val();
@@ -197,16 +197,18 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event) {
-    //console.log("activate", this);
+    $(this).addClass("dropover");
+    $(".bottom-trash").addClass("bottom-trash-drag");
   },
   deactivate: function(event) {
-    //console.log("deactivate", this);
+    $(this).removeClass("dropover");
+    $(".bottom-trash").removeClass("bottom-trash-drag");
   },
   over: function(event) {
-    //console.log("over", event.target);
+    $(this).addClass("dropover-active");
   },
   out: function(event) {
-    //console.log("out", event.target);
+    $(this).removeClass("dropover-active");
   },
   update: function(event) {
     // array to store the taskdata in
@@ -242,11 +244,13 @@ $(".card .list-group").sortable({
 
 // remove all tasks
 $("#remove-tasks").on("click", function() {
-  for (var key in tasks) {
-    tasks[key].length = 0;
-    $("#list-" + key).empty();
+  if (confirm("Are you sure you want to dellete all tasks?")) {
+    for (var key in tasks) {
+      tasks[key].length = 0;
+      $("#list-" + key).empty();
+    }
+    saveTasks();
   }
-  saveTasks();
 });
 
 // drop a task to trash zone
@@ -257,10 +261,10 @@ $("#trash").droppable({
     ui.draggable.remove();
   },
   over: function(event, ui) {
-    //console.log("over");
+    $(".bottom-trash").addClass("bottom-trash-active");
   },
   out: function(event, ui) {
-    //console.log("out");
+    $(".bottom-trash").removeClass("bottom-trash-active");
   }
 });
 

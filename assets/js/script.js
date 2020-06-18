@@ -38,12 +38,12 @@ var loadTasks = function() {
     console.log("*list*", list);
     console.log("*arr*", arr);
     // then loop over sub-array
-    if (arr !== []) {
+    //if (arr !== []) {
       arr.forEach(function(task) {
         console.log("*task*", task);
         createTask(task.text, task.date, list);
       });
-    }
+    //}
   });
 };
 
